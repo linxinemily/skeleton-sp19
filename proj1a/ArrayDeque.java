@@ -116,7 +116,9 @@ public class ArrayDeque<T> {
             return;
         }
         while (size / list.length < 0.25) {
-            resize(size / 2);
+            int min_length = size + 2;
+            int new_size = list.length / 2 < min_length ? min_length : list.length / 2;
+            resize(new_size);
         }
     }
 }

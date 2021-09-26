@@ -30,7 +30,7 @@ public class ArrayDeque<T> {
         size += 1;
         // check if array is full or not
         if (nextLast == nextFirst) {
-            resize();
+            resize(size * 2);
         }
     }
 
@@ -39,7 +39,7 @@ public class ArrayDeque<T> {
         nextFirst = nextFirst == 0 ? list.length - 1 : nextFirst - 1;
         size += 1;
         if (nextLast == nextFirst) {
-            resize();
+            resize(size * 2);
         }
     }
 
@@ -65,18 +65,26 @@ public class ArrayDeque<T> {
     public T removeFirst() {
         int index = nextFirst >= list.length - 1 ? 0 : nextFirst + 1;
         T value = list[index];
+        if (value == null) {
+            return null;
+        }
         list[index] = null;
         nextFirst = index;
         size -= 1;
+        checkSpace();
         return value;
     }
 
     public T removeLast() {
         int index = nextLast == 0 ? list.length - 1 : nextLast - 1;
         T value = list[index];
+        if (value == null) {
+            return null;
+        }
         list[index] = null;
         nextLast = index;
         size -= 1;
+        checkSpace();
         return value;
     }
 
@@ -88,8 +96,8 @@ public class ArrayDeque<T> {
         return list[real_index];
     }
 
-    private void resize() {
-        T[] newList = (T[]) new Object[size * 2];
+    private void resize(int list_size) {
+        T[] newList = (T[]) new Object[list_size];
         int i = 1;
         int j = nextFirst >= list.length - 1 ? 0 : nextFirst + 1;
         while (size >= i) {
@@ -100,5 +108,15 @@ public class ArrayDeque<T> {
         list = newList;
         nextFirst = 0;
         nextLast = i;
+    }
+
+    private void checkSpace() {
+        // For arrays of length 16 or more, usage factor should always be at least 25%
+        if (list.length < 16) {
+            return;
+        }
+        while (size / list.length < 0.25) {
+            resize(size / 2);
+        }
     }
 }

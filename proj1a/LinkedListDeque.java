@@ -96,19 +96,33 @@ public class LinkedListDeque<T> {
 
     public T removeFirst() {
         Node head = dummy.next;
+        if (head == null) {
+            return null;
+        }
         T item = head.value;
-        head.next.prev = head.prev;
-        head.prev.next = head.next;
-        dummy.next = head.next;
+        if (size == 1) {
+            dummy.next = null;
+        } else {
+            head.next.prev = head.prev;
+            head.prev.next = head.next;
+            dummy.next = head.next;
+        }
         size -= 1;
         return item;
     }
 
     public T removeLast() {
+        if (dummy.next == null || dummy.next.prev == null) {
+            return null;
+        }
         Node last = dummy.next.prev;
         T item = last.value;
-        last.prev.next = last.next;
-        dummy.next.prev = last.prev; // prev of head become new last
+        if (size == 1) {
+            dummy.next = null;
+        } else {
+            last.prev.next = last.next;
+            dummy.next.prev = last.prev; // prev of head become new last
+        }
         size -= 1;
         return item;
     }

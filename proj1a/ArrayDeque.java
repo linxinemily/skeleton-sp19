@@ -115,7 +115,8 @@ public class ArrayDeque<T> {
         if (list.length < 16) {
             return;
         }
-        while (size / list.length < 0.25) {
+        float ratio = (float) size / list.length;
+        while (ratio < 0.25) {
             int min_length = size + 2;
             int new_size = list.length / 2 < min_length ? min_length : list.length / 2;
             resize(new_size);

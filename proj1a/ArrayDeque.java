@@ -1,4 +1,4 @@
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     private T[] list;
     private int size;
     private int nextFirst;
@@ -23,6 +23,7 @@ public class ArrayDeque<T> {
         list = new_list;
     }
 
+    @Override
     public void addLast(T value) {
         list[nextLast] = value;
         //  when next last index equals to the last index of array, make circular
@@ -34,6 +35,7 @@ public class ArrayDeque<T> {
         }
     }
 
+    @Override
     public void addFirst(T value) {
         list[nextFirst] = value;
         nextFirst = nextFirst == 0 ? list.length - 1 : nextFirst - 1;
@@ -43,25 +45,20 @@ public class ArrayDeque<T> {
         }
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
-        int i = nextFirst >= list.length - 1 ? 0 : nextFirst + 1;
-        int count = 0;
-        while (size > count) {
-            System.out.print(list[i] + " ");
-            i = i == list.length - 1 ? 0 : i + 1;
-            count++;
+        for (int i = 0; i < size; i++) {
+            System.out.print(get(i) + " ");
         }
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
         int index = nextFirst >= list.length - 1 ? 0 : nextFirst + 1;
         T value = list[index];
@@ -75,6 +72,7 @@ public class ArrayDeque<T> {
         return value;
     }
 
+    @Override
     public T removeLast() {
         int index = nextLast == 0 ? list.length - 1 : nextLast - 1;
         T value = list[index];
@@ -88,6 +86,7 @@ public class ArrayDeque<T> {
         return value;
     }
 
+    @Override
     public T get(int index) {
         int real_index = index + nextFirst + 1;
         if (real_index >= list.length) {

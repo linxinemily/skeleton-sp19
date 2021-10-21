@@ -18,9 +18,20 @@ public class TestPalindrome {
 
     @Test
     public void testIsPalindrome() {
-        Palindrome palindrome = new Palindrome();
         assertTrue(palindrome.isPalindrome("racecar"));
         assertTrue(palindrome.isPalindrome("noon"));
         assertFalse(palindrome.isPalindrome("cat"));
+    }
+
+    @Test
+    public void testIsPalindromeOfByOne() {
+        CharacterComparator cc = new OffByOne();
+        assertTrue(palindrome.isPalindrome("flake", cc));
+    }
+
+    @Test
+    public void testIsPalindromeOfByN() {
+        CharacterComparator cc = new OffByN(5);
+        assertFalse(palindrome.isPalindrome("flake", cc));
     }
 }

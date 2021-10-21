@@ -8,20 +8,30 @@ public class Palindrome {
     }
 
     public boolean isPalindrome(String word) {
-        Deque<Character> word_deque = wordToDeque(word);
-        return checkPalindrome(word_deque);
+        class basicComparator implements CharacterComparator {
+            @Override
+            public boolean equalChars(char x, char y) {
+                return x == y;
+            }
+        }
+        return isPalindrome(word, new basicComparator());
     }
 
-    private boolean checkPalindrome(Deque<Character> word_deque)
+    public boolean isPalindrome(String word, CharacterComparator cc) {
+        Deque<Character> word_deque = wordToDeque(word);
+        return checkPalindrome(word_deque, cc);
+    }
+
+    private boolean checkPalindrome(Deque<Character> word_deque, CharacterComparator cc)
     {
         if (word_deque.size() < 2) {
             return true;
         }
-        Character first =  word_deque.removeFirst();
-        Character last =  word_deque.removeLast();
-        if (!first.equals(last)) {
+        Character first = word_deque.removeFirst();
+        Character last = word_deque.removeLast();
+        if (!cc.equalChars(first, last)) {
             return false;
         }
-        return checkPalindrome(word_deque);
+        return checkPalindrome(word_deque, cc);
     }
 }

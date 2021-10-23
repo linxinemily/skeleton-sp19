@@ -1,37 +1,36 @@
 public class Palindrome {
     public Deque<Character> wordToDeque(String word) {
-        Deque<Character> char_deque = new LinkedListDeque<Character>();
+        Deque<Character> charDeque = new LinkedListDeque<Character>();
         for (int i = 0; i < word.length(); i++) {
-            char_deque.addLast(word.charAt(i));
+            charDeque.addLast(word.charAt(i));
         }
-        return char_deque;
+        return charDeque;
     }
 
     public boolean isPalindrome(String word) {
-        class basicComparator implements CharacterComparator {
+        class BasicComparator implements CharacterComparator {
             @Override
             public boolean equalChars(char x, char y) {
                 return x == y;
             }
         }
-        return isPalindrome(word, new basicComparator());
+        return isPalindrome(word, new BasicComparator());
     }
 
     public boolean isPalindrome(String word, CharacterComparator cc) {
-        Deque<Character> word_deque = wordToDeque(word);
-        return checkPalindrome(word_deque, cc);
+        Deque<Character> wordDeque = wordToDeque(word);
+        return checkPalindrome(wordDeque, cc);
     }
 
-    private boolean checkPalindrome(Deque<Character> word_deque, CharacterComparator cc)
-    {
-        if (word_deque.size() < 2) {
+    private boolean checkPalindrome(Deque<Character> wordDeque, CharacterComparator cc) {
+        if (wordDeque.size() < 2) {
             return true;
         }
-        Character first = word_deque.removeFirst();
-        Character last = word_deque.removeLast();
+        Character first = wordDeque.removeFirst();
+        Character last = wordDeque.removeLast();
         if (!cc.equalChars(first, last)) {
             return false;
         }
-        return checkPalindrome(word_deque, cc);
+        return checkPalindrome(wordDeque, cc);
     }
 }

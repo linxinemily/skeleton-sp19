@@ -1,5 +1,4 @@
-package synthesizer;
-
+package es.datastructur.synthesizer;
 import java.util.Iterator;
 
 public class ArrayRingBuffer<T> implements BoundedQueue<T> {

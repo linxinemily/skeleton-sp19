@@ -1,6 +1,8 @@
-package es.datastructur.synthesizer;
+package synthesizer;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestArrayRingBuffer {
     @Test

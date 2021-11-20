@@ -1,4 +1,4 @@
-package es.datastructur.synthesizer;
+package synthesizer;
 
 //Note: This file will not compile until you complete task 1 (es.datastructur.synthesizer.BoundedQueue).
 public class GuitarString {

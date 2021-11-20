@@ -1,4 +1,4 @@
-import es.datastructur.synthesizer.GuitarString;
+import synthesizer.GuitarString;
 
 public class GuitarHero {
     private static final double CONCERT_A = 440.0;

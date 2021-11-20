@@ -11,6 +11,25 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     /* Array for storing the buffer data. */
     private T[] rb;
 
+    private class ArrayRingBufferIterator implements Iterator<T> {
+        private int wizPos;
+        private int count;
+        public ArrayRingBufferIterator() {
+            wizPos = first;
+            count = 0;
+        }
+        public boolean hasNext() {
+            return count < fillCount();
+        }
+
+        public T next() {
+            T item = rb[wizPos];
+            wizPos = wizPos + 1 == capacity() ? 0 : wizPos + 1;
+            count += 1;
+            return item;
+        }
+    }
+
     @Override
     public int capacity() {
         return rb.length;
@@ -72,7 +91,37 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
         return rb[first];
     }
 
-    // TODO: When you get to part 4, implement the needed code to support
-    //       iteration and equals.
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayRingBufferIterator();
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o == null) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (this.getClass() != o.getClass()) {
+            return false;
+        }
+        ArrayRingBuffer<T> other = (ArrayRingBuffer<T>) o;
+        if (fillCount() != other.fillCount()) {
+            return false;
+        }
+
+        Iterator<T> MyIterator = iterator();
+        Iterator<T> OtherIterator = other.iterator();
+
+        while (MyIterator.hasNext()) {
+            if (!MyIterator.next().equals(OtherIterator.next()) ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
-    // TODO: Remove all comments that say TODO when you're done.

@@ -2,13 +2,11 @@ package synthesizer;
 
 import java.util.Iterator;
 
-public class ArrayRingBuffer<T> implements AbstractBoundedQueue<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;
     /* Index for the next enqueue. */
     private int last;
-    /* Variable for the fillCount. */
-    private int fillCount;
     /* Array for storing the buffer data. */
     private T[] rb;
 
@@ -31,15 +29,6 @@ public class ArrayRingBuffer<T> implements AbstractBoundedQueue<T> {
         }
     }
 
-    @Override
-    public int capacity() {
-        return rb.length;
-    }
-
-    @Override
-    public int fillCount() {
-        return fillCount;
-    }
     /**
      * Create a new ArrayRingBuffer with the given capacity.
      */
@@ -48,6 +37,7 @@ public class ArrayRingBuffer<T> implements AbstractBoundedQueue<T> {
         first = 0;
         last = 0;
         fillCount = 0;
+        this.capacity = capacity;
     }
 
     /**

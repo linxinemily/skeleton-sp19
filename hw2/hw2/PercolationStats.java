@@ -16,7 +16,7 @@ public class PercolationStats {
         for (int i = 0; i < T; i++) {
             Percolation p = pf.make(N);
             while(!p.percolates()) {
-                p.open(StdRandom.uniform(N-1),StdRandom.uniform(N-1));
+                p.open(StdRandom.uniform(N),StdRandom.uniform(N));
             }
             fractions[i] = (double) p.numberOfOpenSites() / allSites;
         }
@@ -47,5 +47,10 @@ public class PercolationStats {
 
     public double confidenceHigh() {
         return (mean() + 1.96 * stddev()) / Math.pow(T, 0.5);
+    }
+
+    public static void main(String[] args) {
+        PercolationStats s = new PercolationStats(20, 100, new PercolationFactory());
+        System.out.println(s.mean());
     }
 }

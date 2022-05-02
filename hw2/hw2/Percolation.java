@@ -85,24 +85,24 @@ public class Percolation {
 
     public boolean percolates() {
         // when N is 1
-        if (xyTo1D(0,0) == xyTo1D(sites.length - 1, 0) && isOpen(0, 0)) {
-            return true;
+        if (xyTo1D(0,0) == xyTo1D(sites.length - 1, 0)) {
+            return isOpen(0, 0);
         }
 
         return set.find(xyTo1D(0,0)) == set.find(xyTo1D(sites.length - 1, 0));
     }
 
     public static void main(String[] args) {
-        Percolation p = new Percolation(3);
+        Percolation p = new Percolation(1);
 
-        p.open(0, 2);
-        p.open(1, 2);
-        p.open(2, 2);
-        p.open(2, 0);
-
-        System.out.println(p.isFull(2, 0) );
-        p.open(1, 0);
-        p.open(0, 0);
+//        p.open(0, 2);
+//        p.open(1, 2);
+//        p.open(2, 2);
+//        p.open(2, 0);
+//
+//        System.out.println(p.isFull(2, 0) );
+//        p.open(1, 0);
+//        p.open(0, 0);
 //        p.open(0, 5);
 //        p.open(1, 5);
 //        p.open(2, 5);

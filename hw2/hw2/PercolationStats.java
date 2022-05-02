@@ -49,8 +49,8 @@ public class PercolationStats {
         return (mean() + 1.96 * stddev()) / Math.pow(T, 0.5);
     }
 
-    public static void main(String[] args) {
-        PercolationStats s = new PercolationStats(20, 100, new PercolationFactory());
-        System.out.println(s.mean());
-    }
+//    public static void main(String[] args) {
+//        PercolationStats s = new PercolationStats(20, 100, new PercolationFactory());
+//        System.out.println(s.mean());
+//    }
 }

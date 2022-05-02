@@ -17,7 +17,7 @@ public class Percolation {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                arr[i][j] = i * N + (j+1);
+                arr[i][j] = i * N + j;
                 arr_open[i][j] = false;
             }
         }
@@ -26,11 +26,12 @@ public class Percolation {
         number_of_open_sites = 0;
 
         set = new WeightedQuickUnionUF(N*N+2); // add top, bottom virtual sites
+        int virtual_top = N*N;
+        int virtual_bottom = N*N +1;
+
         for (int k = 0; k < N; k++) {
-            // link first row to virtual site N+1
-            set.union(N + 1, xyTo1D(0, k));
-            // link last row to virtual site N+2
-            set.union(N + 2, xyTo1D(N - 1, k));
+            set.union(virtual_top, xyTo1D(0, k));
+            set.union(virtual_bottom, xyTo1D(N - 1, k));
         }
     }
 
@@ -87,15 +88,27 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation p = new Percolation(5);
+        Percolation p = new Percolation(6);
 //        p.open(3,4);
+        p.open(0, 5);
+        p.open(1, 5);
+        p.open(2, 5);
+        p.open(3, 5);
+        p.open(4, 5);
+        p.open(4, 4);
+        p.open(3, 3);
+        p.open(2, 3);
+        p.open(1, 3);
+        p.open(1, 2);
+        p.open(1, 1);
+        p.open(1, 0);
 //        p.open(2,4);
 //        p.open(2,2);
 //        p.open(2,3);
 //        p.open(0,2);
 //        p.open(1,2);
-        boolean isFull = p.isFull(0,0);
-        System.out.println(isFull);
+//        boolean isFull = p.isFull(0,0);
+//        System.out.println(isFull);
 //        p.open(4,4);
         System.out.println(p.percolates());
     }

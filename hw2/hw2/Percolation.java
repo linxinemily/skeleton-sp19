@@ -28,9 +28,9 @@ public class Percolation {
         set = new WeightedQuickUnionUF(N*N+2); // add top, bottom virtual sites
         for (int k = 0; k < N; k++) {
             // link first row to virtual site N+1
-            set.union(xyTo1D(0, k), N + 1);
+            set.union(N + 1, xyTo1D(0, k));
             // link last row to virtual site N+2
-            set.union(xyTo1D(N - 1, k), N + 2);
+            set.union(N + 2, xyTo1D(N - 1, k));
         }
     }
 
@@ -67,7 +67,7 @@ public class Percolation {
     }
 
     public boolean isFull(int row, int col) {
-        return set.find(xyTo1D(row, col)) == set.find(xyTo1D(0,0));
+        return isOpen(row, col) && set.find(xyTo1D(row, col)) == set.find(xyTo1D(0,0));
     }
 
     public boolean isOpen(int row, int col) {
@@ -88,13 +88,13 @@ public class Percolation {
 
     public static void main(String[] args) {
         Percolation p = new Percolation(5);
-        p.open(3,4);
-        p.open(2,4);
-        p.open(2,2);
-        p.open(2,3);
-        p.open(0,2);
-        p.open(1,2);
-        boolean isFull = p.isFull(2,2);
+//        p.open(3,4);
+//        p.open(2,4);
+//        p.open(2,2);
+//        p.open(2,3);
+//        p.open(0,2);
+//        p.open(1,2);
+        boolean isFull = p.isFull(0,0);
         System.out.println(isFull);
 //        p.open(4,4);
         System.out.println(p.percolates());

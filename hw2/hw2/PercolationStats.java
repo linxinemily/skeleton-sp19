@@ -1,6 +1,7 @@
 package hw2;
 
 import edu.princeton.cs.introcs.StdRandom;
+import edu.princeton.cs.introcs.StdStats;
 
 public class PercolationStats {
     private int T;
@@ -24,29 +25,20 @@ public class PercolationStats {
 
     // average of the fraction
     public double mean() {
-        double sum = 0;
-        for (int i = 0; i < T; i++) {
-            sum += fractions[i];
-        }
-        return sum / T;
+        return StdStats.mean(fractions);
     }
 
     // standard deviation
     public double stddev() {
-        double mean = mean();
-        double all = 0;
-        for (int i = 0; i < T; i++) {
-            all += Math.pow(fractions[i] - mean, 2);
-        }
-        return Math.pow(all, 0.5);
+        return StdStats.stddev(fractions);
     }
 
     public double confidenceLow() {
-        return (mean() - 1.96 * stddev()) / Math.pow(T, 0.5);
+        return mean() - (1.96 * stddev()) / Math.pow(T, 0.5);
     }
 
     public double confidenceHigh() {
-        return (mean() + 1.96 * stddev()) / Math.pow(T, 0.5);
+        return mean() + (1.96 * stddev()) / Math.pow(T, 0.5);
     }
 
 //    public static void main(String[] args) {

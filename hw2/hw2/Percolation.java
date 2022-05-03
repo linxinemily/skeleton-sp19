@@ -7,6 +7,7 @@ public class Percolation {
     private boolean[][] sites_open;
     private WeightedQuickUnionUF set;
     private int number_of_open_sites;
+    private WeightedQuickUnionUF top_set;
 
     public Percolation(int N) {
         if (N <= 0) {
@@ -26,11 +27,13 @@ public class Percolation {
         number_of_open_sites = 0;
 
         set = new WeightedQuickUnionUF(N*N+2); // add top, bottom virtual sites
+        top_set = new WeightedQuickUnionUF(N*N+1); // add top virtual sites
         int virtual_top = N*N;
         int virtual_bottom = N*N +1;
 
         for (int k = 0; k < N; k++) {
             set.union(virtual_top, xyTo1D(0, k));
+            top_set.union(virtual_top, xyTo1D(0, k));
             set.union(virtual_bottom, xyTo1D(N - 1, k));
         }
     }
@@ -52,23 +55,27 @@ public class Percolation {
         // top
         if (isOpen(row-1, col)) {
             set.union(xyTo1D(row, col), xyTo1D(row-1, col));
+            top_set.union(xyTo1D(row, col), xyTo1D(row-1, col));
         }
         // bottom
         if (isOpen(row+1, col)) {
             set.union(xyTo1D(row, col), xyTo1D(row+1, col));
+            top_set.union(xyTo1D(row, col), xyTo1D(row+1, col));
         }
         // right
         if (isOpen(row, col+1)) {
             set.union(xyTo1D(row, col), xyTo1D(row, col+1));
+            top_set.union(xyTo1D(row, col), xyTo1D(row, col+1));
         }
         // left
         if (isOpen(row, col-1)) {
             set.union(xyTo1D(row, col), xyTo1D(row, col-1));
+            top_set.union(xyTo1D(row, col), xyTo1D(row, col-1));
         }
     }
 
     public boolean isFull(int row, int col) {
-        return isOpen(row, col) && set.find(xyTo1D(row, col)) == set.find(xyTo1D(0,0));
+        return isOpen(row, col) && top_set.find(xyTo1D(row, col)) == top_set.find(xyTo1D(0,0));
     }
 
     public boolean isOpen(int row, int col) {
@@ -93,14 +100,14 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation p = new Percolation(1);
+        Percolation p = new Percolation(3);
 
-//        p.open(0, 2);
-//        p.open(1, 2);
-//        p.open(2, 2);
-//        p.open(2, 0);
-//
-//        System.out.println(p.isFull(2, 0) );
+        p.open(0, 2);
+        p.open(1, 2);
+        p.open(2, 2);
+        p.open(2, 0);
+
+        System.out.println(p.isFull(2, 0) );
 //        p.open(1, 0);
 //        p.open(0, 0);
 //        p.open(0, 5);

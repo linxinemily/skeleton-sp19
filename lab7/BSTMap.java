@@ -91,6 +91,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     public V remove(K key) {
         Node dummyNode = new Node(null, null);
         root = remove(key, root, dummyNode);
+        if (dummyNode.key != null) size--;
         return dummyNode.val;
     }
 

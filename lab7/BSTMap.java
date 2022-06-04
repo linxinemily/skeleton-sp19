@@ -89,13 +89,66 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      * Not required for Lab 8. If you don't implement this, throw an
      * UnsupportedOperationException. */
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        Node dummyNode = new Node(null, null);
+        root = remove(key, root, dummyNode);
+        return dummyNode.val;
     }
 
+    private Node remove(K key, Node node, Node deletedNode) {
+        if (node == null) {
+            return null;
+        }
+        if (key.compareTo(node.key) > 0) {
+            node.right = remove(key, node.right, deletedNode);
+        } else if (key.compareTo(node.key) < 0) {
+            node.left = remove(key, node.left, deletedNode);
+        } else if (key.compareTo(node.key) == 0) { // found the node
+            deletedNode.key = node.key;
+            deletedNode.val = node.val;
+            // case1: has no children, just delete the node
+            if (node.left == null && node.right == null) {
+                return null;
+            } else if (node.left != null && node.right == null) { // case2: has one child - left
+                return node.left;
+            } else if (node.left == null && node.right != null) { // case2: has one child - right
+                return node.right;
+            } else if (node.left != null && node.right != null) { // case2: has two children
+                Node max = getMax(node.left);
+                K temp_key = node.key;
+                V temp_val = node.val;
+                node.key = max.key;
+                node.val = max.val;
+                max.key = temp_key;
+                max.val = temp_val;
+                node.left = remove(key, node.left, deletedNode);
+            }
+        }
+        return node;
+    }
+
+    private Node getMax(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return getMax(node.right);
+    }
     /* Removes the entry for the specified key only if it is currently mapped to
      * the specified value. Not required for Lab 8. If you don't implement this,
      * throw an UnsupportedOperationException.*/
     public V remove(K key, V value) {
         throw new UnsupportedOperationException();
+    }
+
+    private void printInOrder() {
+        printInOrder(root);
+    }
+
+    public void printInOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+        printInOrder(node.left);
+        System.out.println(node.key);
+        printInOrder(node.right);
     }
 }

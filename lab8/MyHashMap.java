@@ -38,8 +38,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     /** Returns true if this map contains a mapping for the specified key. */
     public boolean containsKey(K key) {
-        int hashedKey = key.hashCode() % buckets.length;
-        return buckets[hashedKey] != null;
+        int index = key.hashCode() % buckets.length;
+        return buckets[index].contains(key);
     }
 
     /**
@@ -47,8 +47,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * map contains no mapping for the key.
      */
     public V get(K key) {
-        int hashedKey = key.hashCode() % buckets.length;
-        return buckets[hashedKey].get(key);
+        int index = key.hashCode() % buckets.length;
+        return buckets[index].get(key);
     }
 
     /** Returns the number of key-value mappings in this map. */
@@ -104,7 +104,12 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * UnsupportedOperationException.
      */
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        int index = key.hashCode() % buckets.length;
+        V value = buckets[index].get(key);
+        buckets[index].delete(key);
+        hashSet.remove(key);
+        size--;
+        return value;
     }
 
     /**
@@ -113,25 +118,17 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * throw an UnsupportedOperationException.
      */
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        int index = key.hashCode() % buckets.length;
+        V existValue = buckets[index].get(key);
+        if (!existValue.equals(value)) return null;
+        buckets[index].delete(key);
+        hashSet.remove(key);
+        size--;
+        return value;
     }
 
 
     public Iterator<K> iterator() {
         return keySet().iterator();
-    }
-
-    public static void main(String[] args) {
-        MyHashMap<Integer, String> mhm = new MyHashMap<>(4);
-
-        mhm.put(1, "test");
-        mhm.put(2, "test");
-        mhm.put(2, "test2");
-        mhm.put(2, "test_2");
-        mhm.put(6, "test6");
-//        System.out.println(mhm.get(3));
-        for (Integer key : mhm) {
-            System.out.println(mhm.get(key));
-        }
     }
 }
